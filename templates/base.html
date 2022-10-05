@@ -1,0 +1,55 @@
+<!-- HTML template for the homepage and only page of the application -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <!-- Import relevant CSS stylesheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+
+<body>
+    <div style="margin-top: 50px;" class="ui container">
+        <!-- Title of the webpage -->
+        <h1 class="ui center aligned header">To Do App</h1>
+
+        <!-- Form for users to enter new tasks into to add to the list-->
+        <form class="ui form" action="/add" method="post">
+            <div class="field">
+                <!-- Title of the input form box -->
+                <label>Todo Title</label>
+                <input type="text" name="title" placeholder="Enter Todo..."><br>
+            </div>
+            <!-- Add button for user to submit new task with -->
+            <button class="ui blue button" type="submit">Add</button>
+        </form>
+
+        <hr>
+
+        <!-- Loop through all todos in todo list from backend -->
+        {% for todo in todo_list %}
+        <div class="ui segment">
+            <!-- The header of the component has the todo id and the title -->
+            <p class="ui big header">{{todo.id }} | {{ todo.title }}</p>
+
+            <!-- If the todo is not complete, display not complete with gray -->
+            {% if todo.complete == False %}
+            <span class="ui gray label">Not Complete</span>
+            {% else %}
+            <!-- Otherwise, if the task is complete, display complete with green -->
+            <span class="ui green label">Completed</span>
+            {% endif %}
+
+            <!-- Update button that toggles the checked off state of this todo task item -->
+            <a class="ui blue button" href="/update/{{ todo.id }}">Update</a>
+            <!-- Delete button that deletes the current task -->
+            <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
